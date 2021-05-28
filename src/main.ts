@@ -7,6 +7,7 @@ import validationExceptionFactory from './utils/validation/validation-exception.
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const CONFIGURACOES: ConfigService = app.get('ConfigService');
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -24,7 +25,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  const CONFIGURACOES: ConfigService = app.get('ConfigService');
 
   await app.listen(CONFIGURACOES.get('API_PORTA'));
   Logger.log(`API rodando na porta ${CONFIGURACOES.get('API_PORTA')}`)

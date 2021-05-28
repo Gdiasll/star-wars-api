@@ -3,6 +3,12 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Hello World!';
+    return `
+      <div>
+        <h1>Star Wars API</h1>
+        <h2>Versão: 1.0.0</h2>
+        <p>Para visualizar a página de documentação da API, acessar rota: /api</p>
+      </div>
+    `;
   }
 }
