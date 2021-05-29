@@ -23,10 +23,12 @@ async function bootstrap() {
   .setVersion('1.0.0')
   .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
 
-
-  await app.listen(CONFIGURACOES.get('API_PORTA'));
-  Logger.log(`API rodando na porta ${CONFIGURACOES.get('API_PORTA')}`)
+  if (CONFIGURACOES.get('NODE_ENV') === 'development') {
+    SwaggerModule.setup('api', app, document);
+  }
+  
+  await app.listen(CONFIGURACOES.get('SERVER_PORT'));
+  Logger.log(`API rodando na porta ${CONFIGURACOES.get('SERVER_PORT')}`)
 }
 bootstrap();
