@@ -1,5 +1,5 @@
 import { Connection } from 'mongoose';
-import { createPlanetaModel } from './planeta.model';
+import { createPlanetaModel } from './../persistence/planeta/planeta-entity';
 import {
   PLANETA_MODEL,
   DATABASE_CONNECTION,

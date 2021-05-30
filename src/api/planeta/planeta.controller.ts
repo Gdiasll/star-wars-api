@@ -1,42 +1,47 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Res } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { CreatePlanetaDto } from './create-planeta.dto';
 import { Response } from 'express';
-import { Planeta } from 'src/database/planeta.model';
+import { IPlanetaEntity } from 'src/persistence/planeta/planeta-entity';
+import { PlanetaService } from '../../domain/planeta/planeta.service';
+import { Planeta } from 'src/domain/planeta/planeta';
 
 @Controller('planeta')
 export class PlanetaController {
 
+    constructor(
+        private readonly planetaService: PlanetaService
+    ) {}
+
     @Post('')
     @HttpCode(201)
-    createPlaneta(
+    public async createPlaneta(
         @Body() planeta: CreatePlanetaDto,
-        @Res() res: Response,
-    ): Observable<Response> {
-        return;
+    ): Promise<Planeta> {
+        return this.planetaService.Create(planeta);
     }
 
     @Get('')
     @HttpCode(200)
-    getAllPlaneta(): Observable<Planeta[]> {
-        return;
+    getAllPlaneta(): Promise<Planeta[]> {
+        return this.planetaService.GetAll();
     }
 
     @Get(':id')
     @HttpCode(200)
-    getPlanetaById(@Param('id') id: string): Observable<Planeta> {
-        return;
+    getPlanetaById(@Param('id') id: string): Promise<Planeta> {
+        return this.planetaService.GetById(id);
     }
 
     @Get(':nome')
     @HttpCode(200)
-    getPlanetaByName(@Param('nome') nome: string): Observable<Planeta> {
-        return;
+    getPlanetaByName(@Param('nome') nome: string): Promise<Planeta> {
+        return this.planetaService.GetByNome(nome);
     }
 
     @Delete(':id')
     @HttpCode(204)
-    deletePlaneta(@Param('id') id: string): Observable<Response> {
-        return;
+    deletePlaneta(@Param('id') id: string): Promise<void> {
+        return this.planetaService.DeleteById(id);
     }
 }

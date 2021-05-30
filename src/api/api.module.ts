@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
-import { PlanetaModule } from './planeta/planeta.module';
+import { DomainModule } from 'src/domain/domain.module';
+import { PlanetaController } from './planeta/planeta.controller';
 
 @Module({
-  imports: [PlanetaModule]
+  controllers: [PlanetaController],
+  imports: [DomainModule]
 })
 export class ApiModule {}
