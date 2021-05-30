@@ -1,12 +1,11 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Res } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { CreatePlanetaDto } from './create-planeta.dto';
-import { Response } from 'express';
-import { IPlanetaEntity } from 'src/persistence/planeta/planeta-entity';
 import { PlanetaService } from '../../domain/planeta/planeta.service';
 import { Planeta } from 'src/domain/planeta/planeta';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('planeta')
+@ApiTags('Planeta')
 export class PlanetaController {
 
     constructor(

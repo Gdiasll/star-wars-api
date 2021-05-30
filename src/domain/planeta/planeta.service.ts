@@ -1,22 +1,23 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Planeta } from './planeta';
 import { IPlanetaRepository } from './Iplaneta-repository';
+import { IPlanetaInfoRepository } from './Iplaneta-info-repository';
 
 const PlanetaRepo = () => Inject('PlanetaRepo');
-
+const SwapiRepo = () => Inject('SwapiRepo');
 
 @Injectable()
 export class PlanetaService {
     constructor(
-        @PlanetaRepo() private readonly planetaRepository: IPlanetaRepository
+        @PlanetaRepo() private readonly planetaRepository: IPlanetaRepository,
+        @SwapiRepo() private readonly planetaInfoRepository: IPlanetaInfoRepository,
     ){}
 
     private async getQuantidadeFilmes(planetaNome: string): Promise<number> {
-        return 0;
+        return this.planetaInfoRepository.getPlanetaFilmesByNome(planetaNome);
     }
 
     public async Create(toCreate: Planeta): Promise<Planeta> {
-
         toCreate.filmes = await this.getQuantidadeFilmes(toCreate.nome);
         return this.planetaRepository.Create(toCreate);
     }
