@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PlanetaRepositoryModule } from 'src/persistence/planeta/planeta-repository.module';
-import { SwapiRepositoryModule } from 'src/swapi/swapi-repository.module';
+import { SwapiRepositoryModule } from 'src/persistence/swapi/swapi-repository.module';
 import { PlanetaService } from './planeta.service';
 
 @Module({

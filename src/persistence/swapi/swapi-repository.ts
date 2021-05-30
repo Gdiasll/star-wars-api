@@ -27,8 +27,8 @@ export class SwapiRepository implements IPlanetaInfoRepository{
         return new Promise<number>((resolve, reject) => {
             this.httpService.get(url, { params }).subscribe(
                 res => {
-                    if (!res.data?.results?.length) resolve(0);
-                    if (res.data.results.length > 1) resolve(0);
+                    if (res.data?.count === 0) return resolve(0)
+                    if (res.data.count > 1) return resolve(0);
                     resolve(res.data.results[0].films.length);
                 },
                 err => {

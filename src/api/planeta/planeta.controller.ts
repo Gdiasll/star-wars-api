@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
 import { CreatePlanetaDto } from './create-planeta.dto';
 import { PlanetaService } from '../../domain/planeta/planeta.service';
 import { Planeta } from 'src/domain/planeta/planeta';
@@ -28,19 +28,25 @@ export class PlanetaController {
 
     @Get(':id')
     @HttpCode(200)
-    getPlanetaById(@Param('id') id: string): Promise<Planeta> {
-        return this.planetaService.GetById(id);
+    async getPlanetaById(@Param('id') id: string): Promise<Planeta> {
+        const planeta: Planeta = await this.planetaService.GetById(id);
+        if (!planeta) throw new NotFoundException('Planeta não encontrado.');
+        return planeta;
     }
 
-    @Get(':nome')
+    @Get('/nome/:nome')
     @HttpCode(200)
-    getPlanetaByName(@Param('nome') nome: string): Promise<Planeta> {
-        return this.planetaService.GetByNome(nome);
+    async getPlanetaByName(@Param('nome') nome: string): Promise<Planeta> {
+        const planeta: Planeta = await this.planetaService.GetByNome(nome);
+        if (!planeta) throw new NotFoundException('Planeta não encontrado.');
+        return planeta;
     }
 
     @Delete(':id')
     @HttpCode(204)
-    deletePlaneta(@Param('id') id: string): Promise<void> {
+    async deletePlaneta(@Param('id') id: string): Promise<void> {
+        const planeta: Planeta = await this.planetaService.GetById(id);
+        if (!planeta) throw new NotFoundException('Planeta não encontrado.');
         return this.planetaService.DeleteById(id);
     }
 }
