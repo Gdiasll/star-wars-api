@@ -1,9 +1,10 @@
+import { Observable } from 'rxjs';
 import { Planeta } from './planeta';
 
 export interface IPlanetaRepository {
-    GetAll(): Promise<Planeta[]>;
-    GetByNome(planetaNome: string): Promise<Planeta>;
-    GetById(planetaId: string): Promise<Planeta>;
-    DeleteById(planetaId: string): Promise<void>;
-    Create(planeta: Planeta): Promise<Planeta>;
+    GetAll(skip?: number, limit?: number): Observable<Planeta[]>;
+    GetByNome(planetaNome: string): Observable<Planeta>;
+    GetById(planetaId: string): Observable<Planeta>;
+    DeleteById(planetaId: string): Observable<Planeta>;
+    Create(planeta: Planeta): Observable<Planeta>;
 }

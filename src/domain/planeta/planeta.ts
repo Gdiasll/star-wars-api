@@ -1,5 +1,5 @@
 export type Planeta = {
-    id?: string;
+    _id?: string;
     nome: string;
     clima: string;
     terreno: string;

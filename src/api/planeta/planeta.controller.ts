@@ -1,8 +1,9 @@
-import { BadRequestException, Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, DefaultValuePipe, Delete, Get, HttpCode, NotFoundException, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { CreatePlanetaDto } from './create-planeta.dto';
 import { PlanetaService } from '../../domain/planeta/planeta.service';
 import { Planeta } from 'src/domain/planeta/planeta';
 import { ApiTags } from '@nestjs/swagger';
+import { ParseObjectIdPipe } from 'src/utils/pipe/parse-object-id.pipe';
 
 @Controller('planeta')
 @ApiTags('Planeta')
@@ -17,38 +18,33 @@ export class PlanetaController {
     public async createPlaneta(
         @Body() planeta: CreatePlanetaDto,
     ): Promise<Planeta> {
-        const registroPlaneta: Planeta = await this.planetaService.GetByNome(planeta.nome);
-        if (registroPlaneta) throw new BadRequestException('Já existe um planeta com este nome.');
         return this.planetaService.Create(planeta);
     }
 
     @Get('')
     @HttpCode(200)
-    getAllPlaneta(): Promise<Planeta[]> {
-        return this.planetaService.GetAll();
+    getAllPlaneta(
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
+        @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
+    ): Promise<Planeta[]> {
+        return this.planetaService.GetAll(skip, limit);
     }
 
     @Get(':id')
     @HttpCode(200)
-    async getPlanetaById(@Param('id') id: string): Promise<Planeta> {
-        const planeta: Planeta = await this.planetaService.GetById(id);
-        if (!planeta) throw new NotFoundException('Planeta não encontrado.');
-        return planeta;
+    async getPlanetaById(@Param('id', ParseObjectIdPipe) id: string): Promise<Planeta> {
+        return this.planetaService.GetById(id);
     }
 
     @Get('/nome/:nome')
     @HttpCode(200)
     async getPlanetaByName(@Param('nome') nome: string): Promise<Planeta> {
-        const planeta: Planeta = await this.planetaService.GetByNome(nome);
-        if (!planeta) throw new NotFoundException('Planeta não encontrado.');
-        return planeta;
+        return this.planetaService.GetByNome(nome);
     }
 
     @Delete(':id')
-    @HttpCode(204)
-    async deletePlaneta(@Param('id') id: string): Promise<void> {
-        const planeta: Planeta = await this.planetaService.GetById(id);
-        if (!planeta) throw new NotFoundException('Planeta não encontrado.');
+    @HttpCode(200)
+    async deletePlaneta(@Param('id', ParseObjectIdPipe) id: string): Promise<Planeta> {
         return this.planetaService.DeleteById(id);
     }
 }

@@ -19,22 +19,22 @@ export class PlanetaService {
 
     public async Create(toCreate: Planeta): Promise<Planeta> {
         toCreate.filmes = await this.getQuantidadeFilmes(toCreate.nome);
-        return this.planetaRepository.Create(toCreate);
+        return this.planetaRepository.Create(toCreate).toPromise();
     }
 
-    public async GetAll(): Promise<Planeta[]> {
-        return this.planetaRepository.GetAll();
+    public async GetAll(skip?: number, limit?: number): Promise<Planeta[]> {
+        return this.planetaRepository.GetAll(skip, limit).toPromise();
     }
 
     public async GetById(id: string): Promise<Planeta> {
-        return this.planetaRepository.GetById(id);
+        return this.planetaRepository.GetById(id).toPromise();
     }
 
     public async GetByNome(nome: string): Promise<Planeta> {
-        return this.planetaRepository.GetByNome(nome);
+        return this.planetaRepository.GetByNome(nome).toPromise();
     }
 
-    public async DeleteById(id: string): Promise<void> {
-        return this.planetaRepository.DeleteById(id);
+    public async DeleteById(id: string): Promise<Planeta> {
+        return this.planetaRepository.DeleteById(id).toPromise();
     }
 }
