@@ -1,4 +1,4 @@
 
 export interface IPlanetaInfoRepository {
-    getPlanetaFilmesByNome(nome: string): Promise<number>;
+    GetPlanetaFilmesByNome(nome: string): Promise<number>;
 }

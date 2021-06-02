@@ -14,7 +14,7 @@ export class PlanetaService {
     ){}
 
     private async getQuantidadeFilmes(planetaNome: string): Promise<number> {
-        return this.planetaInfoRepository.getPlanetaFilmesByNome(planetaNome);
+        return this.planetaInfoRepository.GetPlanetaFilmesByNome(planetaNome);
     }
 
     public async Create(toCreate: Planeta): Promise<Planeta> {

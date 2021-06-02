@@ -14,7 +14,7 @@ export class SwapiRepository implements IPlanetaInfoRepository{
         this.swapiUrl = this.configService.get('SWAPI_URL');
     }
 
-    async getPlanetaFilmesByNome(nome: string): Promise<number> {
+    async GetPlanetaFilmesByNome(nome: string): Promise<number> {
 
         const url = this.swapiUrl.endsWith('/') ? 
             `${this.swapiUrl}${this.swapiPlanetPath}` :
