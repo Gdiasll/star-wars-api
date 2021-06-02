@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
 import { CreatePlanetaDto } from './create-planeta.dto';
 import { PlanetaService } from '../../domain/planeta/planeta.service';
 import { Planeta } from 'src/domain/planeta/planeta';
@@ -17,6 +17,8 @@ export class PlanetaController {
     public async createPlaneta(
         @Body() planeta: CreatePlanetaDto,
     ): Promise<Planeta> {
+        const registroPlaneta: Planeta = await this.planetaService.GetByNome(planeta.nome);
+        if (registroPlaneta) throw new BadRequestException('Já existe um planeta com este nome.');
         return this.planetaService.Create(planeta);
     }
 
